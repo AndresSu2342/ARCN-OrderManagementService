@@ -29,6 +29,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<sonar.organization>andressu2342</sonar.organization>
+		<sonar.coverage.jacoco.xmlReportPaths>
+        	${project.build.directory}/site/jacoco/jacoco.xml
+    	</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -48,6 +51,25 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- JaCoCo: genera el reporte de cobertura para Sonar -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<!-- Instrumenta el bytecode antes de correr los tests -->
+					<execution>
+						<id>prepare-agent</id>
+						<goals><goal>prepare-agent</goal></goals>
+					</execution>
+					<!-- Genera el XML de cobertura después de los tests -->
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals><goal>report</goal></goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
