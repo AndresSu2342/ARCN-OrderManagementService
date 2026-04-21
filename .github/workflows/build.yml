@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -70,6 +71,4 @@ jobs:
         env:
           SECRET: ${{ secrets.RENDER_DEPLOY_HOOK_MS2 }}
         run: |
-          curl -fsSL \
-            --request POST \
-            "$SECRET"
+          curl -fsSL --request POST "$SECRET"
