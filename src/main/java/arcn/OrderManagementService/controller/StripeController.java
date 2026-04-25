@@ -1,5 +1,6 @@
 package arcn.OrderManagementService.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.annotation.PostConstruct;
@@ -62,7 +63,10 @@ public class StripeController {
 
     @GetMapping("/success")
     public Map<String, Object> success(@RequestParam(name = "session_id", required = false) String sessionId) {
-        return Map.of("status", STATUS_SUCCESS, "sessionId", sessionId);
+        java.util.Map<String, Object> result = new java.util.HashMap<>();
+        result.put("status", STATUS_SUCCESS);
+        result.put("sessionId", sessionId);
+        return result;
     }
 
     @GetMapping("/cancel")
@@ -120,14 +124,15 @@ public class StripeController {
                 transaction.complete();
                 transactionRepository.save(transaction);
 
-            return ResponseEntity.ok(Map.of(
-                    STATUS_SUCCESS, true,
-                    MESSAGE, "Pago procesado exitosamente",
-                    "dishName", dishName,
-                    "quantity", quantity,
-                    "amount", amount,
-                    "transactionId", transaction.getId()
-            ));
+            Map<String, Object> response = new HashMap<>();
+            response.put(STATUS_SUCCESS, true);
+            response.put(MESSAGE, "Pago procesado exitosamente");
+            response.put("dishName", dishName);
+            response.put("quantity", quantity);
+            response.put("amount", amount);
+            response.put("transactionId", transaction.getId());
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(ERROR, "Error al procesar el pago: " + e.getMessage()));
         }
