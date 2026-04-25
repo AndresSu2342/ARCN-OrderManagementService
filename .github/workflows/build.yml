@@ -58,7 +58,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=AndresSu2342_ARCN-OrderManagementService
+            -Dsonar.projectKey=AndresSu2342_ARCN-OrderManagementService \
+            -Dsonar.organization=andressu2342
 
   deploy:
     name: Deploy to Render
